@@ -86,3 +86,4 @@
 #/openroad/src
 #yosys
 /yosys/out
+asic/sky130/build/

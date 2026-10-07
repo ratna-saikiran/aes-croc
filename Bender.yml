@@ -31,6 +31,11 @@ sources:
       - ihp13/tc_clk.sv
       - ihp13/tc_sram_impl.sv
 
+  - target: sky130
+    files:
+      - sky130/tc_clk.sv
+      - sky130/tc_sram_impl.sv
+
   - rtl/croc_pkg.sv
   - rtl/user_pkg.sv
   - rtl/soc_ctrl/soc_ctrl_regs_pkg.sv
@@ -60,7 +65,7 @@ sources:
       # Level 3
       - rtl/croc_soc.sv
 
-  - target: all(not(fpga), not(netlist_yosys))
+  - target: all(not(fpga), not(netlist_yosys), not(sky130))
     files:
       # Level 0
       - rtl/croc_chip.sv
