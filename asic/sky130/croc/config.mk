@@ -13,6 +13,7 @@ export VERILOG_FILES       = $(CROC_VERILOG_FILES)
 export VERILOG_INCLUDE_DIRS = $(CROC_INCLUDE_DIRS)
 export VERILOG_DEFINES     = -D SYNTHESIS -D COMMON_CELLS_ASSERTS_OFF -D TARGET_ASIC -D TARGET_SKY130 -D TARGET_SYNTHESIS -D TARGET_RTL
 export SDC_FILE            = $(dir $(DESIGN_CONFIG))constraint.sdc
+export SYNTH_CANONICALIZE_TCL = $(dir $(DESIGN_CONFIG))canonicalize.tcl
 
 # Hierarchy is flattened after synthesis; keep it during synth for readable reports
 export SYNTH_HIERARCHICAL = 0
