@@ -26,7 +26,7 @@ Croc's own README, describing the SoC, the flow and the tools, is kept as [READM
 | Full Croc SoC in Verilator, `test_aes.c` on the CVE2 core | `Simulation finished: SUCCESS` ([log](doc/aes/croc_sim_test_aes.log)) |
 | Latency | 11 cycles per block in hardware, 229 cycles including the C driver |
 
-Not done yet: synthesis, place and route, or any GDS.
+Sky130 GDS for the AES core alone and for the whole Croc SoC with AES: see [asic/sky130](asic/sky130/README.md).
 
 ## Register map (base `0x2000_1000`, interrupt 20)
 

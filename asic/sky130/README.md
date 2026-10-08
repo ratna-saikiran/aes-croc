@@ -14,7 +14,7 @@ You need Docker. From the repository root:
 ```sh
 docker pull openroad/orfs:latest
 asic/sky130/run_orfs.sh aes      # AES core alone, about an hour on 4 cores
-asic/sky130/run_orfs.sh croc     # whole SoC, several hours
+asic/sky130/run_orfs.sh croc     # whole SoC, about 5 hours on 4 cores, needs about 10 GB RAM
 ```
 
 Outputs go to `asic/sky130/build/{logs,reports,results}/sky130hd/<design>/base/`. The GDS is `results/.../6_final.gds`, and the layout picture is `reports/.../final_all.webp.png`.
@@ -53,4 +53,22 @@ Files: `aes/results/aes_core.gds.gz`, `aes/results/final_all.png`, `aes/results/
 
 ### croc_soc
 
-In progress.
+![croc_soc layout](croc/results/final_all.png)
+
+| Metric | Value |
+|---|---|
+| Clock target | 25 MHz (40 ns) on `clk_sys`, 10 MHz on JTAG |
+| Setup worst slack | +17.60 ns (fmax about 44.6 MHz on `clk_sys`) |
+| Hold worst slack | +0.096 ns |
+| Detail-route DRC violations | 0 |
+| Antenna violations | 452 nets / 670 pins (post-route diode repair skipped, see below) |
+| Max slew / max cap violations | 62 / 18 |
+| Standard cells (no fill/tap) | 145,766 incl. 542 antenna diodes (37,443 flip-flops, most of them the 2 x 2 KiB flip-flop SRAM) |
+| Cell area incl. tap cells | 1.86 mm² |
+| Die area | 4.68 mm² (about 2.16 mm x 2.16 mm), 40 % utilization |
+| Total power at 25 MHz | 81 mW |
+| Runtime on 4 cores | about 4.5 h, of which detail routing is about 2.5 h |
+
+Files: `croc/results/croc_soc.gds.gz`, `croc/results/final_all.png`, `croc/results/final_routing.png`, `croc/results/6_finish.rpt`, `croc/results/6_report.json`.
+
+`croc/config.mk` sets `SKIP_ANTENNA_REPAIR_POST_DRT=1`. With it unset, ORFS inserts diodes after routing and then reroutes the whole SoC, which adds hours. For a tapeout, fix antennas before that point (diodes during global routing, or shorter long nets) and turn the check back on. The slew and cap violations are on high-fanout nets and also need a repair pass before tapeout.
