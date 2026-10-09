@@ -24,7 +24,7 @@ export SYNTH_MEMORY_MAX_BITS = 16384
 export CORE_UTILIZATION = 35
 export PLACE_DENSITY    = 0.55
 
-# After detail routing, ORFS inserts antenna diodes and reroutes, which for the
-# whole SoC is a second multi-hour detail route. Skip it; leftover antenna
-# violations are reported in 6_finish / drt_antennas.log.
+# ORFS's own post-route antenna repair runs inside the detail-route step, so an
+# interruption loses the whole route. run_orfs.sh croc does it as a separate,
+# checkpointed step instead (scripts/repair_antennas_post_route.tcl).
 export SKIP_ANTENNA_REPAIR_POST_DRT ?= 1
